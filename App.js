@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from "react";
+import React, { Fragment, Component } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -6,27 +6,27 @@ import {
   View,
   TextInput,
   Text,
-  StatusBar
-} from "react-native";
-import PlaceList from "./src/components/PlaceList/PlaceList";
-import PlaceDetail from "./src/components/PlaceDetail/PlaceDetail";
-import PlaceImage from "./src/assets/beautiful-place.jpg"
+  StatusBar,
+} from 'react-native';
+import PlaceList from './src/components/PlaceList/PlaceList';
+import PlaceDetail from './src/components/PlaceDetail/PlaceDetail';
+import PlaceImage from './src/assets/beautiful-place.jpg';;
 
 class App extends Component {
   state = {
-    placeName: "",
+    placeName: '',
     places: [],
-    selectedPlace: null
+    selectedPlace: null,
   };
 
   placeNameChangedHandler = val => {
     this.setState({
-      placeName: val
+      placeName: val,
     });
   };
 
   placeSubmitHandler = () => {
-    if (this.state.placeName.trim() === "") {
+    if (this.state.placeName.trim() === '') {
       return;
     }
     this.setState(prevState => {
@@ -35,19 +35,36 @@ class App extends Component {
           key: Math.random(),
           name: [prevState.placeName],
           image: PlaceImage
-        })
+        }),
       };
     });
   };
+
+  placeDeletedHandler = () => {
+    this.setState(prevState => {
+      return {
+        places: prevState.places.filter((place, i) => {
+          return place.key !== prevState.selectedPlace.key;
+        }),
+        selectedPlace: null
+      };
+    });
+  }
+
+  modalClosedHandler = () => {
+    this.setState({
+      selectedPlace: null
+    })
+  }
 
   placeSelectedHandler = key => {
     this.setState(prevState => {
       return {
         selectedPlace: prevState.places.find(place => {
           return place.key === key;
-        })
-      }
-    })
+        }),
+      };;
+    });;
     // this.setState(prevState => {
     //   return {
     //     places: prevState.places.filter((place, i) => {
@@ -62,7 +79,11 @@ class App extends Component {
       <Fragment>
         <StatusBar barStyle="dark-content" />
         <SafeAreaView style={styles.container}>
-          <PlaceDetail selectedPlace={this.state.selectedPlace} />
+          <PlaceDetail
+            selectedPlace={this.state.selectedPlace}
+            onItemDeleted={this.placeDeletedHandler}
+            onModalClosed={this.modalClosedHandler}
+          />
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.placeInput}
@@ -88,31 +109,31 @@ class App extends Component {
 
 const styles = StyleSheet.create({
   scrollView: {
-    backgroundColor: "#fff"
+    backgroundColor: '#fff',
   },
   container: {
     flex: 1,
-    flexDirection: "column",
+    flexDirection: 'column',
     padding: 26,
-    justifyContent: "flex-start",
-    alignItems: "center"
+    justifyContent: 'flex-start',
+    alignItems: 'center',
   },
   inputContainer: {
     // flex: 1,
-    width: "90%",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center"
+    width: '90%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   placeInput: {
-    width: "70%"
+    width: '70%',
   },
   placeButton: {
-    width: "30%"
+    width: '30%',
   },
   listContainer: {
-    width: "90%"
-  }
+    width: '90%',
+  },
 });
 
 export default App;

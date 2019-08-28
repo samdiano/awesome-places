@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Modal,
   View,
@@ -6,8 +6,8 @@ import {
   Image,
   Text,
   Button,
-  StyleSheet
-} from "react-native";
+  StyleSheet,
+} from 'react-native';
 
 const PlaceDetail = props => {
   let modalContent = null;
@@ -20,12 +20,16 @@ const PlaceDetail = props => {
     );
   }
   return (
-    <Modal visible={props.selectedPlace !== null} animationType="slide">
+    <Modal
+      onRequestClose={props.onModalClosed}
+      visible={props.selectedPlace !== null}
+      animationType="slide"
+    >
       <SafeAreaView style={styles.modalContainer}>
         {modalContent}
         <View>
-          <Button title="Delete" color="red" />
-          <Button title="Close" />
+          <Button title="Delete" color="red" onPress={props.onItemDeleted} />
+          <Button title="Close" onPress={props.onModalClosed} />
         </View>
       </SafeAreaView>
     </Modal>
@@ -34,17 +38,17 @@ const PlaceDetail = props => {
 
 const styles = StyleSheet.create({
   modalContainer: {
-    margin: 22
+    margin: 22,
   },
   placeImage: {
-    width: "100%",
-    height: 200
+    width: '100%',
+    height: 200,
   },
   placeName: {
-    fontWeight: "bold",
-    textAlign: "center",
-    fontSize: 28
-  }
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 28,
+  },
 });
 
 export default PlaceDetail;
